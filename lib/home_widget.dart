@@ -32,14 +32,14 @@ class _HomeWidgetState extends ConsumerState<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // Watch the provider specific to this pageTitle
+    // このpageTitleに固有のプロバイダーの状態を監視する
     final selectedHeaderIndex = ref.watch(
       headerIndexProvider(widget.pageTitle),
     );
 
     return Column(
       children: [
-        // Horizontal Scrollable Header (conditionally rendered)
+        // 横スクロール可能なヘッダー（項目がある場合のみ表示）
         if (widget.headerItems.isNotEmpty)
           SizedBox(
             height: 50,
@@ -52,7 +52,7 @@ class _HomeWidgetState extends ConsumerState<HomeWidget> {
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: InkWell(
                     onTap: () {
-                      // Update Riverpod state
+                      // Riverpodの状態（選択されたインデックス）を更新する
                       ref
                               .read(
                                 headerIndexProvider(widget.pageTitle).notifier,
@@ -61,15 +61,14 @@ class _HomeWidgetState extends ConsumerState<HomeWidget> {
                           index;
 
                       final String headerText = widget.headerItems[index];
-                      // Demo logic: Use the provided base URL for the first item (usually 'Home' or similar),
-                      // and use Google Search for others to show distinct content.
-                      // Or just search for everything to be consistent?
-                      // Let's try: if index == 0, go back to widget.url. Else search.
+                      // デモ用のロジック:
+                      // 最初の項目（通常は「ホーム」など）の場合は元のURLを使用し、
+                      // それ以外の場合はGoogle検索を使用して異なるコンテンツを表示する。
 
                       if (index == 0) {
                         _controller.loadRequest(Uri.parse(widget.url));
                       } else {
-                        // Simple demo URL generation
+                        // シンプルなデモ用URL生成
                         final String query = Uri.encodeComponent(headerText);
                         final String demoUrl =
                             'https://www.google.com/search?q=$query';
@@ -103,7 +102,7 @@ class _HomeWidgetState extends ConsumerState<HomeWidget> {
               },
             ),
           ),
-        // WebView Content
+        // WebViewのコンテンツを表示
         Expanded(child: WebViewWidget(controller: _controller)),
       ],
     );

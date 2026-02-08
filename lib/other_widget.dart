@@ -8,18 +8,18 @@ class OtherWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Watch the URL provider
+    // URLプロバイダーの状態を監視する
     final currentUrl = ref.watch(otherTabUrlProvider);
 
-    // If a URL is set, show the WebView
+    // URLが設定されている場合は、WebViewを表示する
     if (currentUrl != null) {
       return _OtherWebView(url: currentUrl);
     }
 
-    // Otherwise, show the menu (Grid + List)
+    // それ以外の場合は、メニュー（グリッド + リスト）を表示する
     return Column(
       children: [
-        // Top Half: 2x2 Grid taking remaining space
+        // 上半分: 残りのスペースを使用する2x2のグリッド
         Expanded(
           child: Column(
             children: [
@@ -66,7 +66,7 @@ class OtherWidget extends ConsumerWidget {
             ],
           ),
         ),
-        // Bottom Half: ListView sizing to content with padding
+        // 下半分: コンテンツに合わせてサイズ調整されるリストビュー（パディング付き）
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 40.0),
           child: ListView(
@@ -142,7 +142,7 @@ class OtherWidget extends ConsumerWidget {
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             onTap: () {
-              // Set the URL to trigger WebView display
+              // WebViewを表示するためにURLを設定する
               ref.read(otherTabUrlProvider.notifier).state = url;
             },
             child: Center(
